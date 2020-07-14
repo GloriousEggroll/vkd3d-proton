@@ -2110,13 +2110,13 @@ static int shader_parse_signature(DWORD tag, const char *data, DWORD data_size,
             return VKD3D_ERROR_INVALID_ARGUMENT;
         }
         read_uint32(&ptr, &e[i].semantic_index);
-        read_uint32(&ptr, &e[i].sysval_semantic);
-        read_uint32(&ptr, &e[i].component_type);
+        read_uint32(&ptr, (uint32_t *)&e[i].sysval_semantic);
+        read_uint32(&ptr, (uint32_t *)&e[i].component_type);
         read_uint32(&ptr, &e[i].register_index);
         read_uint32(&ptr, &e[i].mask);
 
         if (has_min_precision)
-            read_uint32(&ptr, &e[i].min_precision);
+            read_uint32(&ptr, (uint32_t *)&e[i].min_precision);
         else
             e[i].min_precision = VKD3D_SHADER_MINIMUM_PRECISION_NONE;
 
@@ -2303,7 +2303,7 @@ static int shader_parse_descriptor_ranges(struct root_signature_parser_context *
 
     for (i = 0; i < count; ++i)
     {
-        read_uint32(&ptr, &ranges[i].range_type);
+        read_uint32(&ptr, (uint32_t *)&ranges[i].range_type);
         read_uint32(&ptr, &ranges[i].descriptor_count);
         read_uint32(&ptr, &ranges[i].base_shader_register);
         read_uint32(&ptr, &ranges[i].register_space);
@@ -2346,11 +2346,11 @@ static int shader_parse_descriptor_ranges1(struct root_signature_parser_context 
 
     for (i = 0; i < count; ++i)
     {
-        read_uint32(&ptr, &ranges[i].range_type);
+        read_uint32(&ptr, (uint32_t *)&ranges[i].range_type);
         read_uint32(&ptr, &ranges[i].descriptor_count);
         read_uint32(&ptr, &ranges[i].base_shader_register);
         read_uint32(&ptr, &ranges[i].register_space);
-        read_uint32(&ptr, &ranges[i].flags);
+        read_uint32(&ptr, (uint32_t *)&ranges[i].flags);
         read_uint32(&ptr, &ranges[i].descriptor_table_offset);
 
         TRACE("Type %#x, descriptor count %u, base shader register %u, "
@@ -2487,7 +2487,7 @@ static int shader_parse_root_descriptor1(struct root_signature_parser_context *c
 
     read_uint32(&ptr, &descriptor->shader_register);
     read_uint32(&ptr, &descriptor->register_space);
-    read_uint32(&ptr, &descriptor->flags);
+    read_uint32(&ptr, (uint32_t *)&descriptor->flags);
 
     TRACE("Shader register %u, register space %u, flags %#x.\n",
             descriptor->shader_register, descriptor->register_space, descriptor->flags);
@@ -2513,8 +2513,8 @@ static int shader_parse_root_parameters(struct root_signature_parser_context *co
 
     for (i = 0; i < count; ++i)
     {
-        read_uint32(&ptr, &parameters[i].parameter_type);
-        read_uint32(&ptr, &parameters[i].shader_visibility);
+        read_uint32(&ptr, (uint32_t *)&parameters[i].parameter_type);
+        read_uint32(&ptr, (uint32_t *)&parameters[i].shader_visibility);
         read_uint32(&ptr, &offset);
 
         TRACE("Type %#x, shader visibility %#x.\n",
@@ -2561,8 +2561,8 @@ static int shader_parse_root_parameters1(struct root_signature_parser_context *c
 
     for (i = 0; i < count; ++i)
     {
-        read_uint32(&ptr, &parameters[i].parameter_type);
-        read_uint32(&ptr, &parameters[i].shader_visibility);
+        read_uint32(&ptr, (uint32_t *)&parameters[i].parameter_type);
+        read_uint32(&ptr, (uint32_t *)&parameters[i].shader_visibility);
         read_dword(&ptr, &offset);
 
         TRACE("Type %#x, shader visibility %#x.\n",
@@ -2608,19 +2608,19 @@ static int shader_parse_static_samplers(struct root_signature_parser_context *co
 
     for (i = 0; i < count; ++i)
     {
-        read_uint32(&ptr, &sampler_descs[i].filter);
-        read_uint32(&ptr, &sampler_descs[i].address_u);
-        read_uint32(&ptr, &sampler_descs[i].address_v);
-        read_uint32(&ptr, &sampler_descs[i].address_w);
+        read_uint32(&ptr, (uint32_t *)&sampler_descs[i].filter);
+        read_uint32(&ptr, (uint32_t *)&sampler_descs[i].address_u);
+        read_uint32(&ptr, (uint32_t *)&sampler_descs[i].address_v);
+        read_uint32(&ptr, (uint32_t *)&sampler_descs[i].address_w);
         read_float(&ptr, &sampler_descs[i].mip_lod_bias);
         read_uint32(&ptr, &sampler_descs[i].max_anisotropy);
-        read_uint32(&ptr, &sampler_descs[i].comparison_func);
-        read_uint32(&ptr, &sampler_descs[i].border_color);
+        read_uint32(&ptr, (uint32_t *)&sampler_descs[i].comparison_func);
+        read_uint32(&ptr, (uint32_t *)&sampler_descs[i].border_color);
         read_float(&ptr, &sampler_descs[i].min_lod);
         read_float(&ptr, &sampler_descs[i].max_lod);
         read_uint32(&ptr, &sampler_descs[i].shader_register);
         read_uint32(&ptr, &sampler_descs[i].register_space);
-        read_uint32(&ptr, &sampler_descs[i].shader_visibility);
+        read_uint32(&ptr, (uint32_t *)&sampler_descs[i].shader_visibility);
     }
 
     return VKD3D_OK;
@@ -2703,7 +2703,7 @@ static int shader_parse_root_signature(const char *data, unsigned int data_size,
             return ret;
     }
 
-    read_uint32(&ptr, &v_1_0->flags);
+    read_uint32(&ptr, (uint32_t *)&v_1_0->flags);
     TRACE("Flags %#x.\n", v_1_0->flags);
 
     return VKD3D_OK;
