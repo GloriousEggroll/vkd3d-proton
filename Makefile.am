@@ -65,9 +65,11 @@ BUILT_SOURCES = $(widl_headers)
 noinst_LTLIBRARIES = libvkd3d-common.la
 libvkd3d_common_la_SOURCES = \
 	include/private/vkd3d_debug.h \
+	include/private/vkd3d_profiling.h \
 	libs/vkd3d-common/debug.c \
 	libs/vkd3d-common/memory.c \
-	libs/vkd3d-common/utf8.c
+	libs/vkd3d-common/utf8.c \
+	libs/vkd3d-common/profiling.c
 
 lib_LTLIBRARIES = libvkd3d-shader.la libvkd3d.la libvkd3d-utils.la
 
@@ -78,6 +80,7 @@ libvkd3d_shader_la_SOURCES = \
 	include/private/vkd3d_spinlock.h \
 	include/private/vkd3d_debug.h \
 	include/private/vkd3d_memory.h \
+	include/private/vkd3d_profiling.h \
 	include/vkd3d_shader.h \
 	libs/vkd3d-shader/checksum.c \
 	libs/vkd3d-shader/dxbc.c \

@@ -116,11 +116,12 @@ FORCEINLINE uint32_t vkd3d_atomic_uint32_decrement(uint32_t *target, vkd3d_memor
 #define vkd3d_memory_order_acq_rel __ATOMIC_ACQ_REL
 #define vkd3d_memory_order_seq_cst __ATOMIC_SEQ_CST 
 
-# define vkd3d_atomic_uint32_load_explicit(target, order)            __atomic_load_n(target, order)
-# define vkd3d_atomic_uint32_store_explicit(target, value, order)    __atomic_store_n(target, value, order)
-# define vkd3d_atomic_uint32_exchange_explicit(target, value, order) __atomic_exchange_n(target, value, order)
-# define vkd3d_atomic_uint32_increment(target, order)                __atomic_add_fetch(target, 1, order)
-# define vkd3d_atomic_uint32_decrement(target, order)                __atomic_sub_fetch(target, 1, order)
+# define vkd3d_atomic_uint32_load_explicit(target, order)              __atomic_load_n(target, order)
+# define vkd3d_atomic_uint32_store_explicit(target, value, order)      __atomic_store_n(target, value, order)
+# define vkd3d_atomic_uint32_exchange_explicit(target, value, order)   __atomic_exchange_n(target, value, order)
+# define vkd3d_atomic_uint32_increment(target, order)                  __atomic_add_fetch(target, 1, order)
+# define vkd3d_atomic_uint32_decrement(target, order)                  __atomic_sub_fetch(target, 1, order)
+# define vkd3d_atomic_uint64_add_fetch_explicit(target, value, order)  __atomic_add_fetch(target, value, order)
 
 # ifndef __MINGW32__
 #  define InterlockedIncrement(target) vkd3d_atomic_uint32_increment(target, vkd3d_memory_order_seq_cst)
